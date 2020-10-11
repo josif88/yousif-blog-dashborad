@@ -27,7 +27,7 @@ export default function Home() {
             <Input.Search style={{ width: 300 }} placeholder="Search" />
             <Button
               onClick={() => {
-                router.push("./article/create");
+                router.push("./admin/article/create");
               }}
               icon={<FileAddOutlined />}
               type="primary"

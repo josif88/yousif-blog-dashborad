@@ -1,147 +1,64 @@
-import { AuthContainer, Header } from "../../components/main";
-import { Input, Button, Typography, Row, message, Popover } from "antd";
-import { SaveOutlined } from "@ant-design/icons";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { addArticle, getArticle, editArticle } from "./../api";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
 
-export default function Article() {
-  const router = useRouter();
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import moment from "moment";
+ 
+import { useEffect, useState } from "react";
 
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [text, setText] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
+const Article = (props) => {
+  
+  
+  const [article, setArticle] = useState({});
 
   useEffect(() => {
-    router.query && console.log(router.query);
-
-    if (router && router.query) {
-      getArticle(router.query.id, (err, data) => {
-        if (!data.status) {
-          Object.keys(data.errMsg).forEach((key) => {
-            message.error(data.errMsg[key]);
-          });
-        } else {
-          setIsEdit(true);
-          setText(data.article.text);
-          setTitle(data.article.title);
-          setImage(data.article.image);
-          setDescription(data.article.description);
-        }
-      });
-    }
-  }, [router]);
-
-  const addArticleHandle = (title, text, description, image) => {
-    addArticle(
-      {
-        text,
-        title,
-        description,
-        image,
-        athor: Number(JSON.parse(localStorage.getItem("user_name")).id),
-      },
-
-      (err, result) => {
-        if (err) throw err;
-        if (!result.status) {
-          Object.keys(result.errMsg).forEach((key) => {
-            message.error(result.errMsg[key]);
-          });
-        } else {
-          router.push("/admin");
-        }
-      }
-    );
-  };
-
-  const editArticleHandle = (title, text, description, image) => {
-    editArticle(
-      router.query.id,
-      {
-        title,
-        text,
-        description,
-        image,
-      },
-
-      (err, result) => {
-        if (err) throw err;
-        if (!result.status) {
-          Object.keys(result.errMsg).forEach((key) => {
-            message.error(result.errMsg[key]);
-          });
-        } else {
-          router.push("/admin");
-        }
-      }
-    );
-  };
-
-  var ReactQuill;
-
-  if (typeof window !== "undefined") {
-    ReactQuill = require("react-quill");
-  }
-
+    setArticle(props.post.article);
+  }, []);
   return (
-    <AuthContainer>
-      <div className="AddArticle">
-        <Header />
-        <div className="container">
-          <div className="controls flex">
-            <Input.Search style={{ width: 300 }} placeholder="Search" />
-            <Button
-              disabled={title && text && image && description ? false : true}
-              icon={<SaveOutlined />}
-              onClick={() =>
-                isEdit
-                  ? editArticleHandle(title, text, description, image)
-                  : addArticleHandle(title, text, description, image)
-              }
-              type="primary"
-            >
-              Save
-            </Button>
-          </div>
+    <div>
+      <Header />
+      <main>
+        <section class="blog-container">
+          <section class="title">
+            <div>
+              <h2>{article.title}</h2>
+              <small>By {article.athor}</small>
+            </div>
+            <small>{moment(article.createdAt).format('ll')}</small>
+          </section>
+        </section>
 
-          <Typography.Title>Add Article</Typography.Title>
-          <Row style={{ marginTop: 20 }}>
-            <Input
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Row>
-          <Row style={{ marginTop: 20 }}>
-            <Input
-              placeholder="short description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Row>
-          <Row style={{ marginTop: 20 }}>
-            <Popover content={<img src={!image ? "" : image} />}>
-              <Input
-                placeholder="Image url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
-            </Popover>
-          </Row>
-
-          {ReactQuill && (
-            <ReactQuill
-              style={{ marginTop: 20, height: 200 }}
-              theme="snow"
-              value={text}
-              onChange={(value) => setText(value)}
-            />
-          )}
-        </div>
-      </div>
-    </AuthContainer>
+        <section class="blog-container">
+          <LazyLoadImage class="cover"  src={article.image} />
+          
+          <div dangerouslySetInnerHTML={{__html: article.text}}/>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
+};
+export default Article;
+
+
+
+export async function getStaticPaths() {
+  const res = await fetch("https://mashriq.herokuapp.com/dash/v1/articles");
+  const posts = await res.json();
+
+  const paths = posts.articles.map((post) => ({
+    params: { id: post.id.toString() },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  // Call an external API endpoint to get posts
+  const res = await fetch(
+    `https://mashriq.herokuapp.com/dash/v1/article/${params.id}`
+  );
+  const post = await res.json();
+
+  return { props: { post } };
 }

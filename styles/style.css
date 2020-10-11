@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+a {
+  text-decoration: none;
+}
+p {
+  color: #393838;
+  line-height: 1.4;
+}
+
+.blog-container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.blog-header {
+  background-color: #030303;
+  color: #ffffff;
+  border-bottom: 1px solid #c5c1c1;
+  padding: 20px 0;
+}
+
+.blog-header  .blog-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blog-header  .blog-content ul {
+  list-style: none;
+  display: flex;
+}
+.blog-header  .blog-content li {
+  margin-left: 10px;
+}
+main {
+  margin-bottom: 100px;
+}
+main .blog-container {
+  padding-top: 45px;
+}
+
+main .blog-container .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main .blog-container .cover {
+  width: 100%;
+}
+
+main .blog-container .coverDesc {
+  margin: 40px 0;
+  color: #9b9a9a;
+}
+
+main .blog-container .dot {
+  font-size: 48px;
+  text-align: center;
+}
+
+main h3 {
+  color: #030303;
+  margin-bottom: 20px;
+}
+
+footer {
+  background: #eeeeee;
+  padding: 30px 0;
+}
+
+footer .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon {
+  width: 30px;
+}
+
+.home-cover {
+  position: relative;
+  height: 400px;
+}
+
+.home-cover-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  background: #67676778;
+}
+
+.overlay h1 {
+  margin-top: 100px;
+  color: #fce00d;
+  font-size: 50px;
+}
+
+.overlay p {
+  color: #ffffff;
+  font-size: 30px;
+}
+
+
+
+.featured-posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+  position: relative;
+  margin-top: -125px !important;
+}
+.post-thumbnail {
+  background: #eeeeee;
+  height: 200px;
+}
+.featured-posts .img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.featured-posts h3 {
+  margin: 10px 0;
+}
+
+.featured-posts span {color: #626161;}
+
+.featured-posts .post-info {
+  margin:10px 0;
+  display: flex;
+  justify-content:space-between;
+  align-items:center;
+}

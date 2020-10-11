@@ -1,0 +1,42 @@
+@media screen and (max-width: 1100px) {
+    .blog-container {
+      margin: 0 30px;
+    }
+    .featured-posts{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .post-thumbnail {
+        background: #eeeeee;
+        height: 300px;
+      }
+      .featured-posts .img {
+        object-fit: cover;
+      }
+  }
+
+  @media screen and (max-width: 560px) {
+    .blog-container {
+      margin: 0 30px;
+    }
+    .featured-posts{
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .title h2{
+        font-size: 14px;
+    }
+
+    .cover {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .overlay h1{
+        font-size:36px
+    }
+
+    .overlay p{
+        font-size:18px;
+    }
+  }
