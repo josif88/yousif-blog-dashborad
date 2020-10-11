@@ -29,7 +29,7 @@ const Article = (props) => {
         </section>
 
         <section class="blog-container">
-          <LazyLoadImage class="cover"  src={article.image} />
+          <LazyLoadImage className="cover" style={{height:450,margin:'0 0 10px 0', objectFit:'cover'}} src={article.image} />
           
           <div dangerouslySetInnerHTML={{__html: article.text}}/>
         </section>
